@@ -31,6 +31,7 @@ while True:
         delay(0.05)
         get_events()
 
+
     line = (line + 1) % 2
 
 close_canvas()
