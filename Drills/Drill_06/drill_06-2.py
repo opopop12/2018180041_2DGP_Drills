@@ -187,7 +187,7 @@ def draw_curve_move(p1,p2,p3,p4,p5,p6,p7,p8,p9,p10):
 
 n=1
 size = 10
-points = [(random.randint(0,1280),random.randint(0,1080)) for i in range(size)]
+points = [(random.randint(200,1000),random.randint(200,880)) for i in range(size)]
 
 while move:
     clear_canvas()
