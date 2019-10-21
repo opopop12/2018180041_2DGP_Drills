@@ -33,14 +33,14 @@ def handle_events():
 
 
 def draw():
-    #global  time
+    global  time
     clear_canvas()
-    #main_state.grass.draw()
-    #main_state.boy.draw()
-    #if time == 0:
-    image.draw(400, 300, 200, 200)
-    #delay(0.5)
-    #time = (time + 1) % 2
+    main_state.grass.draw()
+    main_state.boy.draw()
+    if time == 0:
+        image.draw(400, 300, 200, 200)
+    delay(0.5)
+    time = (time + 1) % 2
     update_canvas()
     pass
 
