@@ -38,7 +38,7 @@ def draw():
     main_state.grass.draw()
     main_state.boy.draw()
     if time == 0:
-        image.draw(400, 300, 200, 200)
+        image.clip_draw(250,250,400,400,400,300)
     delay(0.5)
     time = (time + 1) % 2
     update_canvas()
