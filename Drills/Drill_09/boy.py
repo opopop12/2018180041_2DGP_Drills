@@ -206,4 +206,3 @@ class Boy:
             self.add_event(key_event)
         # fill here
         pass
-
