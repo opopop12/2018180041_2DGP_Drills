@@ -15,9 +15,10 @@ name = "MainState"
 
 boy = None
 grass = None
+brick = None
 balls = []
 big_balls = []
-brick = None
+
 
 
 def collide(a, b):
@@ -44,10 +45,10 @@ def enter():
 
     # fill here for balls
     global balls
-    balls = [Ball() for i in range(10)] + [BigBall() for i in range(10)]
+    balls = [Ball() for i in range(10)] + [BigBall() for i in range(20)]
     game_world.add_objects(balls, 1)
 
-    global birck
+    global brick
     brick = Brick()
     game_world.add_object(brick,1)
 
@@ -81,12 +82,26 @@ def update():
         if collide(boy,ball):
             balls.remove(ball)
             game_world.remove_object(ball)
+
+    #for ball in balls:
+    #    if collide(boy,ball):
+    #        boy.velocity2=0
+    if collide(boy,brick):
+        #boy.y = brick.y + 60
+        #boy.velocity2 = 0
+        if boy.y - brick.y > 55:
+            boy.stop_fall()
+        boy.x += brick.velocity * game_framework.frame_time
+
     for ball in balls:
         if collide(grass,ball):
             ball.stop()
+
     for ball in balls:
-        if collide(brick, ball):
-            ball.stop()
+        if collide(brick,ball) :# and not(ball.x+20 > brick.x-90 and ball.x-20 < brick.x+90):
+            ball.x += brick.velocity * game_framework.frame_time
+            if ball.y -brick.y >39:
+                ball.stop()
 
 
 

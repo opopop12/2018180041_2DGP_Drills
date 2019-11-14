@@ -44,18 +44,24 @@ class IdleState:
             boy.velocity -= RUN_SPEED_PPS
         elif event == LEFT_UP:
             boy.velocity += RUN_SPEED_PPS
-        boy.timer = 1000
+        boy.timer = 2000
 
     @staticmethod
     def exit(boy, event):
         if event == SPACE:
-            boy.fire_ball()
+            boy.velocity2 = 600
+            boy.jump()
         pass
 
     @staticmethod
     def do(boy):
         boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
         boy.timer -= 1
+        boy.y += boy.velocity2 * game_framework.frame_time
+        if boy.y > 90:
+            boy.velocity2 -=1
+        if boy.y <= 90:
+            boy.velocity2 = 0
         if boy.timer == 0:
             boy.add_event(SLEEP_TIMER)
 
@@ -84,14 +90,20 @@ class RunState:
     @staticmethod
     def exit(boy, event):
         if event == SPACE:
-            boy.fire_ball()
+            boy.velocity2 = 600
+            boy.jump()
 
     @staticmethod
     def do(boy):
         #boy.frame = (boy.frame + 1) % 8
         boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
         boy.x += boy.velocity * game_framework.frame_time
+        boy.y += boy.velocity2 * game_framework.frame_time
         boy.x = clamp(25, boy.x, 1600 - 25)
+        if boy.y <= 90:
+            boy.velocity2 = 0
+        if boy.y > 90:
+            boy.velocity2 -=1
 
     @staticmethod
     def draw(boy):
@@ -142,6 +154,7 @@ class Boy:
         self.font = load_font('ENCR10B.TTF', 16)
         self.dir = 1
         self.velocity = 0
+        self.velocity2 = 0
         self.frame = 0
         self.event_que = []
         self.cur_state = IdleState
@@ -149,13 +162,14 @@ class Boy:
 
     def get_bb(self):
         # fill here
-        return self.x -50, self.y -50,self.x +50, self.y +50
-        return 0, 0, 0, 0
+        return self.x -50, self.y -38,self.x +50, self.y +50
 
 
-    def fire_ball(self):
-        ball = Ball(self.x, self.y, self.dir * RUN_SPEED_PPS * 10)
-        game_world.add_object(ball, 1)
+    def jump(self):
+
+        print("y: ", self.y)
+        print("velocity: ", self.velocity2)
+        pass
 
 
     def add_event(self, event):
@@ -174,6 +188,9 @@ class Boy:
         self.font.draw(self.x - 60, self.y + 50, '(Time: %3.2f)' % get_time(), (255, 255, 0))
         #fill here
         draw_rectangle(*self.get_bb())
+
+    def stop_fall(self):
+        self.velocity2 = 0
 
     def handle_event(self, event):
         if (event.type, event.key) in key_event_table:

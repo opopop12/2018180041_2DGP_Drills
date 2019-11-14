@@ -3,6 +3,17 @@ from pico2d import *
 import game_world
 import game_framework
 
+PIXEL_PER_METER = (10.0 / 0.4)
+RUN_SPEED_KMPH = 20.0
+RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
+RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
+RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
+
+TIME_PER_ACTION = 1.0
+ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
+FRAMES_PER_ACTION = 14
+
+
 class Ball:
     image = None
 
@@ -10,13 +21,17 @@ class Ball:
         if Ball.image == None:
             Ball.image = load_image('ball21x21.png')
         self.x, self.y, self.fall_speed = random.randint(0, 1600-1), 60, 0
+        self.frame = 0
+        self.velocity = RUN_SPEED_PPS
 
     def get_bb(self):
         # fill here
         return self.x -10, self.y -10, self.x +10, self.y + 10
-        return 0,0,0,0
 
     def stop(self):
+        self.fall_speed = 0
+
+    def stop_move(self):
         self.fall_speed = 0
 
     def draw(self):
@@ -27,7 +42,6 @@ class Ball:
         self.y -= self.fall_speed * game_framework.frame_time
 
     #fill here for def stop
-
 
 # fill here
 class BigBall(Ball):
