@@ -71,12 +71,23 @@ class Zombie:
         # fill here
         boy = main_state.get_boy()
         distance = (boy.x - self.x)**2 + (boy.y - self.y)**2
-        if distance < (PIXEL_PER_METER * 10)**2:
+        if distance < (PIXEL_PER_METER * 8)**2:
             self.dir = math.atan2(boy.y - self.y,boy.x-self.x)
             return BehaviorTree.SUCCESS
         else:
             self.speed = 0
             return BehaviorTree.FAIL
+        pass
+
+    def run_away(self):
+        boy = main_state.get_boy()
+        if boy.boy_hp >= self.zombie_hp:
+            self.dir = math.atan2(boy.y - self.y,boy.x-self.x)
+            return BehaviorTree.SUCCESS
+        pass
+
+    def find_get_ball(self):
+
         pass
 
     def move_to_player(self):

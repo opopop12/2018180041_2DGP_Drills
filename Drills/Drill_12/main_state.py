@@ -79,6 +79,17 @@ def update():
     for game_object in game_world.all_objects():
         game_object.update()
 
+    for ball in balls:
+        if collide(boy,ball):
+            boy.boy_hp +=100
+            balls.remove(ball)
+            game_world.remove_object(ball)
+    for ball in balls:
+        if collide(zombie,ball):
+            zombie.zombie_hp += 100
+            balls.remove(ball)
+            game_world.remove_object(ball)
+
 
 def draw():
     clear_canvas()
