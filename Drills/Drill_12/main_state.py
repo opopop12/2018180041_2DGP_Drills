@@ -36,6 +36,10 @@ def collide(a, b):
 def get_boy():
     return boy
 
+def get_ball():
+    for ball in balls:
+        return ball
+
 
 def enter():
     global boy
@@ -47,7 +51,7 @@ def enter():
     game_world.add_object(zombie, 1)
 
     global  balls
-    balls = [Ball() for i in range (10)]
+    balls = [Ball() for i in range (20)]
     game_world.add_objects(balls,1)
 
     ground = Ground()
@@ -89,6 +93,11 @@ def update():
             zombie.zombie_hp += 100
             balls.remove(ball)
             game_world.remove_object(ball)
+    if collide(boy,zombie):
+        if boy.boy_hp>=zombie.zombie_hp:
+            game_world.remove_object(zombie)
+        else:
+            game_world.remove_object(boy)
 
 
 def draw():
